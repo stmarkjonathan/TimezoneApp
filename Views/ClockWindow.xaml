@@ -46,12 +46,13 @@
             <TextBox
                 x:Name="SearchTextBox"
                 Grid.Row="0"
-                Grid.Column="1">
-                
+                Grid.Column="1"
+                Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextChanged="SearchTextBox_TextChanged">
             </TextBox>
 
             <ListBox 
-                x:Name="TimezoneListBox"
+                x:Name="TZListBox"
                 SelectedItem="{Binding SelectedTimeZone, Mode=TwoWay}"
                 Grid.Column="1"
                 Grid.Row="1"

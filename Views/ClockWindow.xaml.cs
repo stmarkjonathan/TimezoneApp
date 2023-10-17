@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using TimezoneApp.ViewModels;
 
 namespace TimezoneApp
@@ -21,11 +22,13 @@ namespace TimezoneApp
     {
 
         public ClockWindowViewModel ViewModel;
+        private DispatcherTimer _clockTimer;
 
         public ClockWindow()
         {
             InitializeComponent();
             SetWindowPosition();
+            StartClock();
 
             DataContext = ViewModel = new ClockWindowViewModel();
 
@@ -36,6 +39,27 @@ namespace TimezoneApp
             var screenArea = SystemParameters.WorkArea;
             this.Left = screenArea.Right - this.Width;
             this.Top = screenArea.Bottom - this.Height;
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+
+            ViewModel.UpdateList(textBox.Text);
+        }
+
+        private void StartClock()
+        {
+            _clockTimer = new DispatcherTimer();
+            _clockTimer.Interval = TimeSpan.FromSeconds(1);
+            _clockTimer.Tick += clockTick;
+            _clockTimer.Start();
+
+        }
+
+        private void clockTick(object sender, EventArgs e) 
+        {
+            ViewModel.UpdateClock();
         }
     }
 }

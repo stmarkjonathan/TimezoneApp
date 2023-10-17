@@ -8,6 +8,19 @@
         <SolidColorBrush x:Key="BorderGray" Color="#444447"/>
         <SolidColorBrush x:Key="MouseOverColour" Color="#444447" Opacity="0.5"/>
 
+        <VisualBrush x:Key="SearchBoxHint">
+            <VisualBrush.RelativeTransform>
+                <ScaleTransform ScaleX="0.5" ScaleY="0.5" CenterX="0.5" CenterY="0.5"/>
+            </VisualBrush.RelativeTransform>
+            <VisualBrush.Visual>
+                <Grid>
+                    <TextBlock Foreground="White" 
+                               Opacity="0.3" 
+                               Text="Search for a timezone"/>
+                </Grid>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
         <!-- Clipboard Window -->
 
         <Style TargetType="Window"
@@ -48,8 +61,23 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="CaretBrush" Value="White"/>
             <Setter Property="Foreground" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="Text" Value="">
+                    <Setter Property="Background" Value="{StaticResource SearchBoxHint}"/>
+                    <Setter Property="FontSize" Value="12"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
-        
+
+        <!-- Text Block-->
+
+        <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
         <!-- List Box-->
 
         <Style TargetType="ListBox">

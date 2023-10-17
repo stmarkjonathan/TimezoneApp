@@ -7,20 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using TimezoneApp.Services;
 
 namespace TimezoneApp.ViewModels
 {
     public class ClockWindowViewModel : INotifyPropertyChanged
     {
+        private ReadOnlyCollection<TimeZoneInfo>  _systemTimeZones = TimeZoneInfo.GetSystemTimeZones();
 
-        private ReadOnlyCollection<TimeZoneInfo> _timeZoneList = TimeZoneInfo.GetSystemTimeZones();
+        private List<TimeZoneInfo> _timeZoneList;
 
         public List<string> TimeZoneList
         {
             get 
             {
-                //use linq to reference searched item later
-                return _timeZoneList.Select(x => x.Id).OrderBy(x => x).ToList();                         
+                if (_timeZoneList == null)
+                {
+                    _timeZoneList = _systemTimeZones.ToList();
+                }
+
+                return _timeZoneList.Select(x => x.Id).OrderBy(x => x).ToList();
+
             }
         }
 
@@ -42,6 +49,21 @@ namespace TimezoneApp.ViewModels
             }
         }
 
+        private string _searchQuery;
+
+        public string SearchQuery
+        {
+            get 
+            {
+                return _searchQuery;
+            }
+            set
+            {
+                _searchQuery = value.Trim();
+                OnPropertyChanged("SearchQuery");
+            }
+        }
+
         private string _selectedTimeZone;
         public string SelectedTimeZone
         {
@@ -56,18 +78,35 @@ namespace TimezoneApp.ViewModels
             set 
             { 
                 _selectedTimeZone = value;
-                UpdateTimezone(value);
+                UpdateClock();
                 OnPropertyChanged("SelectedTimeZone");
             }
         }
 
-        public ClockWindowViewModel() 
+        public void UpdateList(string searchQuery)
         {
+            if(String.IsNullOrWhiteSpace(searchQuery))
+            {
+                _timeZoneList = _systemTimeZones.ToList();
+                OnPropertyChanged("TimeZoneList");
+                return;
+            }
+
+            _timeZoneList.Clear();
+
+            foreach(var item in _systemTimeZones)
+            {
+                if (item.Id.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+                {
+                    _timeZoneList.Add(item);
+                }
+            }
+            OnPropertyChanged("TimeZoneList");
         }
 
-        private void UpdateTimezone(string timezoneID)
+        public void UpdateClock()
         {     
-            DisplayedTime = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById(timezoneID));
+            DisplayedTime = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById(SelectedTimeZone));
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
