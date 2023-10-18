@@ -1,6 +1,7 @@
 ﻿<Window x:Class="TimezoneApp.ClockWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:c="clr-namespace:TimezoneApp.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -24,6 +25,18 @@
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <tb:TaskbarIcon x:Name="taskbarMenu"
+                            IconSource="/Resources/Icons/appIcon.ico">
+
+                <tb:TaskbarIcon.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="toggleButton" Header="Toggle Visibility" Click="toggleButton_Click"></MenuItem>
+                        <MenuItem x:Name="exitButton" Header="Exit" Click="exitButton_Click"></MenuItem>
+                    </ContextMenu>
+                </tb:TaskbarIcon.ContextMenu>
+
+            </tb:TaskbarIcon>
+
             <Label
                 BorderThickness="0,0,0,1"
                 Grid.Column="0" 

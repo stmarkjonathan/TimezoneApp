@@ -57,9 +57,33 @@ namespace TimezoneApp
 
         }
 
+        private void ToggleVisibility()
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                Visibility = Visibility.Hidden;
+                _clockTimer.Stop();
+            }
+            else
+            {
+                Visibility = Visibility.Visible;
+                _clockTimer.Start();
+            }
+        }
+
         private void clockTick(object sender, EventArgs e) 
         {
             ViewModel.UpdateClock();
+        }
+
+        private void toggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleVisibility();
+        }
+
+        private void exitButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

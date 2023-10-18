@@ -16,7 +16,9 @@
                 <Grid>
                     <TextBlock Foreground="White" 
                                Opacity="0.3" 
-                               Text="Search for a timezone"/>
+                               Text="Search for a timezone"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
                 </Grid>
             </VisualBrush.Visual>
         </VisualBrush>
@@ -29,7 +31,7 @@
             <Setter Property="Topmost" Value="True"/>
             <Setter Property="WindowStyle" Value="None"/>
             <Setter Property="AllowsTransparency" Value="True"/>
-            <Setter Property="ShowInTaskbar" Value="True"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
         </Style>
 
         <!-- Clock Label -->
@@ -75,7 +77,6 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="White"/>
         </Style>
 
         <!-- List Box-->
